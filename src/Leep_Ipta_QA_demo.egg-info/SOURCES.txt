@@ -1,0 +1,8 @@
+LICENSE
+README.md
+setup.py
+src/Leep_Ipta_QA_demo.egg-info/PKG-INFO
+src/Leep_Ipta_QA_demo.egg-info/SOURCES.txt
+src/Leep_Ipta_QA_demo.egg-info/dependency_links.txt
+src/Leep_Ipta_QA_demo.egg-info/top_level.txt
+src/constants/__init__.py

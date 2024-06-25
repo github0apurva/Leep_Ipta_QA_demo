@@ -1,0 +1,11 @@
+Metadata-Version: 2.1
+Name: Leep-Ipta-QA-demo
+Version: 0.0.0
+Summary: A small package for CNN app
+Home-page: https://github.com/github0apurva/Leep_Ipta_QA_demo
+Author: github0apurva
+Author-email: apurva.c27@gmail.com
+Project-URL: Bug Tracker, https://github.com/github0apurva/Leep_Ipta_QA_demo/issues
+License-File: LICENSE
+
+A small package for CNN app
