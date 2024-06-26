@@ -2,6 +2,6 @@ Web_page_search_context : "novartis Iptacopan competitors"
 number_of_pages : 10
 chunk_size : 1000
 chunk_overlap : 20
-docs_to_vectorize : 5
+docs_to_vectorize : 2
 embeddings_to_use : 'Ollama'
 model_to_use : 'Ollama'

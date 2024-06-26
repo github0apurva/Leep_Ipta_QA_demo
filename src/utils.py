@@ -2,6 +2,7 @@ import yaml
 from pathlib import Path 
 from box.exceptions import BoxValueError
 from src.constants import *
+from langchain_community.vectorstores import FAISS
 
 def read_yaml (ac, path_yaml:Path) :
     """
@@ -47,4 +48,15 @@ def read_from_text (ac, fle ):
     my_fle = open(fle, "r") 
     my_lst = my_fle.read().split("\n")
     print ( "Activity ", ac, ": Done: reading webpage from text file")
-    return my_lst
+    return my_lst[0:-1]
+
+
+def vectordb_write ( index_name, path, my_vector ):
+    my_vector.save_local ( path , index_name )
+    print ("Activity  : Done: Vector DB saved to disk")
+    return
+
+def vectordb_read ( my_index_name, path, my_embeddings ):
+    my_vector = FAISS.load_local ( path, index_name  = my_index_name,
+                               embeddings = my_embeddings , allow_dangerous_deserialization = True   ) 
+    return my_vector
