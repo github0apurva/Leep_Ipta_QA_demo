@@ -51,12 +51,13 @@ def read_from_text (ac, fle ):
     return my_lst[0:-1]
 
 
-def vectordb_write ( index_name, path, my_vector ):
+def vectordb_write ( ac, index_name, path, my_vector ):
     my_vector.save_local ( path , index_name )
-    print ("Activity  : Done: Vector DB saved to disk")
+    print ("Activity ", ac, ": Done: Vector DB saved to disk")
     return
 
-def vectordb_read ( my_index_name, path, my_embeddings ):
+def vectordb_read ( ac, my_index_name, path, my_embeddings ):
     my_vector = FAISS.load_local ( path, index_name  = my_index_name,
                                embeddings = my_embeddings , allow_dangerous_deserialization = True   ) 
+    print ("Activity ", ac, ": Done: Vector DB read from disk")
     return my_vector

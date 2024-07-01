@@ -24,7 +24,7 @@ from langchain.chains import create_retrieval_chain
 
 
 def get_retrieval_chain ():
-    params = read_yaml(7, PARAMS_FILE_PATH)
+    params = read_yaml(1, PARAMS_FILE_PATH)
     # choosing the embeddings to use
     embeddings_to_use = params['embeddings_to_use']
     if embeddings_to_use == "Instruct":
@@ -37,10 +37,14 @@ def get_retrieval_chain ():
     # get prompt
     # prompt = hub.pull("hwchase17/openai-functions-agent")
     # print( prompt.messages )
+
+    #prompt_style_to_use
     prompt = ChatPromptTemplate.from_template(
     """
-    Answer the questions based on the provided context only.
-    Please provide the most accurate response based on the question
+    You are an assistant for question-answering tasks. Use the provided context only to answer the question. 
+    {prompt_examples}
+    If you don't know the answer, just say that you don't know. {prompt_text}
+    Please provide the most accurate response based on the question.
     <context>
     {context}
     <context>
@@ -48,12 +52,13 @@ def get_retrieval_chain ():
     """)
     #llm = Ollama(model = "llama2")
     llm= ChatOllama(model="llama2")
-    
-    loaded_vector = vectordb_read ( DB_FAISS_NM, os.getcwd(), choosen_embeddings )
+    print ("Activity ", 2, ": Done: Prompt template and LLM ready")
+    loaded_vector = vectordb_read ( 3, DB_FAISS_NM, os.getcwd(), choosen_embeddings )
     retriever = loaded_vector.as_retriever()
 
     # creating document chain
     document_chain = create_stuff_documents_chain(llm, prompt)
     retrieval_chain = create_retrieval_chain (retriever, document_chain)
+    print ("Activity ", 4, ": Done: retrieval chain is ready")
     return retrieval_chain
 

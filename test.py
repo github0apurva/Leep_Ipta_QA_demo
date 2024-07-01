@@ -1,8 +1,8 @@
 Web_page_search_context = "novartis Iptacopan competitors"
-number_of_pages = 10
+number_of_pages = 2
 chunk_size = 1000
 chunk_overlap =20
-docs_to_vectorize = 2
+docs_to_vectorize = 1000
 embeddings_to_use ='Ollama'
 model_to_use = 'Ollama'
 
@@ -111,7 +111,8 @@ def create_vector (links_to_load):
     # splitting the docs based on above size etc
     documents = RecursiveCharacterTextSplitter(chunk_size = chunk_size, chunk_overlap = chunk_overlap).split_documents(web_docs)
     # taking only top n docs
-    documents_filtered = documents[:2]
+    docs_to_vectorize_take = min ( docs_to_vectorize, len(web_docs))
+    documents_filtered = documents[:docs_to_vectorize_take]
     # choosing the embeddings to use
     if embeddings_to_use == "Instruct":
         print ( "Instruct Embeddings" )
@@ -144,8 +145,10 @@ def get_retrieval_chain (retriever):
     # print( prompt.messages )
     prompt = ChatPromptTemplate.from_template(
     """
-    Answer the questions based on the provided context only.
-    Please provide the most accurate response based on the question
+    You are an assistant for question-answering tasks. Use the provided context only to answer the question. 
+    {prompt_examples}
+    If you don't know the answer, just say that you don't know. {prompt_text}
+    Please provide the most accurate response based on the question.
     <context>
     {context}
     <context>
@@ -161,13 +164,20 @@ def get_retrieval_chain (retriever):
     return retrieval_chain
 
 def talk_to_stream (retrieval_chain):
+    prompt_text = " Use three sentences maximum and keep the answer concise. "
+    prompt_few_text = """ "Input":"where was Iptacopan discovered?", "Output": "iscovered at the Novartis Biomedical Research, iptacopan is currently in development for a range of complement-mediated diseases including paroxysmal nocturnal hemoglobinuria (PNH), immunoglobulin A nephropathy (IgAN), C3 glomerulopathy (C3G), immune complex membranoproliferative glomerulonephritis (IC-MPGN) and atypical hemolytic uremic syndrome (aHUS)", 
+    "Input":"How does Iptacopan compares with Soliris", "Output": "Iptacopan was compared to AstraZeneca/Alexion’s Soliris (eculizumab) and Ultomiris (ravulizumab). Both drugs are anti-complement component 5 (C5) monoclonal antibodies, approved for PNH and atypical hemolytic uremic syndrome, generalized myasthenia gravis and neuromyelitis optica spectrum disorder"."""
+    prompt_examples = "Few sample questions and answers are " + prompt_few_text
+
+
     st.title("Demo with LLAMA2")
 
     input_text = st.text_input ("Input the question you have about Iptacopan ")
     #input_text = "what is Iptacopan"
     if input_text:
         start_time = time.process_time()
-        response = retrieval_chain.invoke ({"input":input_text})
+        #response = retrieval_chain.invoke ({"input":input_text})
+        response = retrieval_chain.invoke ({"input":input_text, "prompt_text":prompt_text, "prompt_examples": prompt_examples })
         print ("response time: ",time.process_time()-start_time)
         print ( response['answer'] )
         st.write(response['answer'])

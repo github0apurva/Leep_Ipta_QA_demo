@@ -1,4 +1,5 @@
-
+import warnings
+warnings.filterwarnings("ignore")
 
 
 ask = input("Enter Y if need full run ( create new vector store), N if only Q&A (based on previously built Vectors) : ")

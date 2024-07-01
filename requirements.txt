@@ -24,3 +24,4 @@ torch
 pyYAML
 tqdm
 joblib
+nest_asyncio
