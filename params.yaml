@@ -1,12 +1,16 @@
-Web_page_search_context : "novartis Iptacopan competitors"
+Web_page_search_context : "novartis Iptacopan pnh competitors"
 number_of_pages : 2
 chunk_size : 1000
 chunk_overlap : 20
 docs_to_vectorize : 2
 embeddings_to_use : 'Ollama'
 model_to_use : 'Ollama'
-prompt_zero_shot : False
-prompt_few_text : ' 
+prompt_zero_shot : True
+prompt_few_text_short : ' 
+"Input":"where was Iptacopan discovered?" | "Output": "discovered at the Novartis Biomedical Research, iptacopan is currently in development for a range of complement-mediated diseases including paroxysmal nocturnal hemoglobinuria (PNH), immunoglobulin A nephropathy (IgAN), C3 glomerulopathy (C3G), immune complex membranoproliferative glomerulonephritis (IC-MPGN) and atypical hemolytic uremic syndrome (aHUS)" ,
+"Input":"How does Iptacopan compares with Soliris?" | "Output": "Iptacopan was compared to AstraZeneca/Alexion’s Soliris (eculizumab) and Ultomiris (ravulizumab). Both drugs are anti-complement component 5 (C5) monoclonal antibodies, approved for PNH and atypical hemolytic uremic syndrome, generalized myasthenia gravis and neuromyelitis optica spectrum disorder",
+'
+prompt_few_text_long : ' 
 "Input":"where was Iptacopan discovered?" | "Output": "discovered at the Novartis Biomedical Research, iptacopan is currently in development for a range of complement-mediated diseases including paroxysmal nocturnal hemoglobinuria (PNH), immunoglobulin A nephropathy (IgAN), C3 glomerulopathy (C3G), immune complex membranoproliferative glomerulonephritis (IC-MPGN) and atypical hemolytic uremic syndrome (aHUS)" ,
 "Input":"How does Iptacopan compares with Soliris?" | "Output": "Iptacopan was compared to AstraZeneca/Alexion’s Soliris (eculizumab) and Ultomiris (ravulizumab). Both drugs are anti-complement component 5 (C5) monoclonal antibodies, approved for PNH and atypical hemolytic uremic syndrome, generalized myasthenia gravis and neuromyelitis optica spectrum disorder",
 '

@@ -9,12 +9,14 @@ def talk_to_stream (retrieval_chain):
     params = read_yaml(5, PARAMS_FILE_PATH)
 
     prompt_zero_shot = params['prompt_zero_shot']
-    prompt_few_text = params['prompt_few_text']
-    if prompt_zero_shot == True and prompt_few_text == "" :
-        prompt_examples = ""
+    prompt_few_text1 = params['prompt_few_text_short']
+    prompt_few_text2 = params['prompt_few_text_long']
+    if prompt_zero_shot == True and prompt_few_text1 == "" and prompt_few_text2 == "":
+        prompt_examples1 = ""
+        prompt_examples2 = ""
     else :
-        prompt_examples = "Few sample questions and answers seperated by | are as per below: " + prompt_few_text
-
+        prompt_examples1 = "Few sample questions and answers seperated by | are as per below: " + prompt_few_text1
+        prompt_examples2 = "Few sample questions and answers seperated by | are as per below: " + prompt_few_text2
 
     img = Image.open("Designer.png")
     st.image(img, width=150)
@@ -34,10 +36,16 @@ def talk_to_stream (retrieval_chain):
 
     if(st.button("Get answer")) and  input_text: 
         st.markdown('''Response will take few minutes !!! :hourglass_flowing_sand:''')
-        prompt_text = ""
+        
         if response_length_small == 'Short':
-            print ( " used short answer and ", prompt_examples )
-            prompt_text = " Use three sentences maximum and keep the answer concise. "
+            print ( " used short answer and ", prompt_examples1 )
+            prompt_text = " Use four sentences maximum and keep the answer concise. "
+            prompt_examples = prompt_examples1
+        else:
+            print ( " used long answer and ", prompt_examples2 )
+            prompt_text = " Use ten sentences maximum and stick to facts. Answer with bullets points and be descriptive. "
+            prompt_examples = prompt_examples2
+
         start_time = time.process_time()
         #response = retrieval_chain.invoke ({"input":input_text})
         print ("Activity ", 8, ": Invoke start")

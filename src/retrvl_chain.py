@@ -44,14 +44,15 @@ def get_retrieval_chain ():
     You are an assistant for question-answering tasks. Use the provided context only to answer the question. 
     {prompt_examples}
     If you don't know the answer, just say that you don't know. {prompt_text}
-    Please provide the most accurate response based on the question.
+    Use the provided context only to answer the question. Please provide the most accurate response based on the question.
     <context>
     {context}
     <context>
     Questions: {input}
     """)
     #llm = Ollama(model = "llama2")
-    llm= ChatOllama(model="llama2")
+    #llm= ChatOllama(model="llama2")
+    llm= ChatOllama(model="llama2", top_k = 10 , temperature = 0.2 , num_gpu = 1 )
     print ("Activity ", 2, ": Done: Prompt template and LLM ready")
     loaded_vector = vectordb_read ( 3, DB_FAISS_NM, os.getcwd(), choosen_embeddings )
     retriever = loaded_vector.as_retriever()
