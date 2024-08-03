@@ -1,11 +1,14 @@
 import streamlit as st
 import time
+from datetime import timedelta
 from langchain.chains import create_retrieval_chain
 from src.constants import *
 from src.utils import read_yaml
 from PIL import Image
 
 def talk_to_stream (retrieval_chain):
+    strt =  time.time()
+    
     params = read_yaml(5, PARAMS_FILE_PATH)
 
     prompt_zero_shot = params['prompt_zero_shot']
@@ -33,7 +36,7 @@ def talk_to_stream (retrieval_chain):
     # if response_length_small == 'Short':
     #     prompt_text = " Use three sentences maximum and keep the answer concise. "
     print ("Activity ", 7, ": Done: Stream got inputs")
-
+    print ("within stream: Done with first step, time elpased: ", timedelta(seconds=time.time()-strt) )
     if(st.button("Get answer")) and  input_text: 
         st.markdown('''Response will take few minutes !!! :hourglass_flowing_sand:''')
         
@@ -46,9 +49,9 @@ def talk_to_stream (retrieval_chain):
             prompt_text = " Use ten sentences maximum and stick to facts. Answer with bullets points and be descriptive. "
             prompt_examples = prompt_examples2
 
-        start_time = time.process_time()
+        print ("within stream: Starting the response, time elpased: ", timedelta(seconds=time.time()-strt) )
         #response = retrieval_chain.invoke ({"input":input_text})
         print ("Activity ", 8, ": Invoke start")
         response = retrieval_chain.invoke ({"input":input_text, "prompt_text":prompt_text, "prompt_examples": prompt_examples })
-        print ("response time: ",time.process_time()-start_time)
+        print ("within stream: Done with the response, time elpased: ", timedelta(seconds=time.time()-strt) )
         st.text_area(label = "Response" , value=response['answer'], height =500, label_visibility  = 'hidden')

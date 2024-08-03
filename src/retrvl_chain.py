@@ -21,7 +21,8 @@ from langchain_community.llms import Ollama
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain.chains import create_retrieval_chain
 
-
+from langchain_groq import ChatGroq
+os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
 
 def get_retrieval_chain ():
     params = read_yaml(1, PARAMS_FILE_PATH)
@@ -50,9 +51,16 @@ def get_retrieval_chain ():
     <context>
     Questions: {input}
     """)
-    #llm = Ollama(model = "llama2")
-    llm= ChatOllama(model="llama2")
-    #llm= ChatOllama(model="llama2", top_k = 10 , temperature = 0.2 , num_gpu = 1 )
+
+    model_to_use = params['model_to_use']
+    if model_to_use == "GROQ":
+        llm = ChatGroq(groq_api_key = os.environ["GROQ_API_KEY"],
+                model_name = "llama3-8b-8192" )
+    else:
+        #llm= ChatOllama(model="llama2")
+        #llm= ChatOllama(model="llama2", top_k = 10 , temperature = 0.2 , num_gpu = 1 )
+        llm = Ollama(model = "llama2")
+        
     print ("Activity ", 2, ": Done: Prompt template and LLM ready")
     loaded_vector = vectordb_read ( 3, DB_FAISS_NM, os.getcwd(), choosen_embeddings )
     retriever = loaded_vector.as_retriever()
